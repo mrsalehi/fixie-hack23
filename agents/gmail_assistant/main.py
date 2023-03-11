@@ -65,6 +65,18 @@ events by their title and time, unless the user asks for attendees or location."
     return fewShots     """
 
 FEW_SHOTS = """
+Q: What emails are in my inbox?
+Thought: I need to get all emails from the inbox.
+Func[list_emails] says: https://accounts.google.com/o/oauth2/auth?foo=bar
+Thought: I need to pass the auth url to the user.
+A: I don't have access to your inbox. Please authorize: https://accounts.google.com/o/oauth2/auth?foo=bar
+
+Q: What emails are in my inbox?
+Thought: I need to get all emails from the inbox.
+Func[list_emails] says: {a long list of emails}
+Thought: I need to summarize the emails.
+A: Here are all your emails: {a long list of emails}
+
 Q: Answer the emails I have got today
 Thought: I need to get to the emails from gmail and then write draft responses
 Func[dummyemails] says: [{"subject": "Urgent Cash Flow Situation",
@@ -93,12 +105,14 @@ def workhours():
 
 
 @agent.register_func
-def threads(oauth_handler: fixieai.OAuthHandler) -> str:
+def list_emails(oauth_handler: fixieai.OAuthHandler, user_storage) -> str:
     """Returns all events in user's mailbox.
     """
     user_token = oauth_handler.user_token()
     if user_token is None:
-        return oauth_handler.get_authorization_url()
+        url =  oauth_handler.get_authorization_url()
+        import pdb; pdb.set_trace()
+        return url
 
     client = gmail_client.GmailClient(user_token)
     threads = client.threads()
