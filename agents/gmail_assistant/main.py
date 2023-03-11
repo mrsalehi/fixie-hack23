@@ -79,30 +79,20 @@ A: Here are all your emails: {a long list of emails}
 
 Q: Answer the emails I have got today
 Thought: I need to get to the emails from gmail and then write draft responses
-Func[dummyemails] says: [{"subject": "Urgent Cash Flow Situation",
-"time": "13:10 11/03/2023",
-"sender": "urgentinvestor@gmail.com",
-"body":"Dear Matt,I regret to inform you that we are experiencing a significant cash flow problem, and we may not be able to meet our payroll obligations this week."
-
-Func[respond_emails] says : [{"subject": "Urgent Cash Flow Situation",
-"time": "13:10 11/03/2023",
-"sender": "urgentinvestor@gmail.com",
-"body":"Dear Investor"}]
-A: Here is your draft {"subject": "Urgent Cash Flow Situation",
-"body": "your response"}
+Func[list_emails] says: [{'id': '186d24f834c44525', 'snippet': '---------- Forwarded message --------- From: Thomas Schweizer &lt;tschweiz@cs.washington.edu&gt; Date: Thu, Mar 9, 2023 at 4:40 PM Subject: Fwd: Welcome to the Fixie Hackathon! Instructions for', 'historyId': '2080'}
+{'id': '186d24c0155077fd', 'snippet': 'Let&##39;s get started! Welcome to Google. Your new account comes with access to Google products, apps, and services. Here are a few tips to get you started. Get the most out of your Google Account We', 'historyId': '1404'}]
+Thoughts: I need to write a draft response to each email.
+A: I have written a draft response to the emails. \
+  --- First email --- \
+  To: Thomas Schweizer, \
+   Thank you for inviting me to the Fixie Hackathon. \
+   I am looking forward to it. I have attached my resume. Regards, Saurabh
+  --- Second email --- \
+  To: Google, \
+    Thank you for creating this account.
 """
 
 agent = fixieai.CodeShotAgent(BASE_PROMPT, FEW_SHOTS, oauth_params=oauth_params)
-
-def answeremail(query: fixieai.Message):
-    print("this got called")
-
-
-@agent.register_func
-def workhours():
-    """Returns valid working hours. Currently simple."""
-    return "09:00 AM to 05:00 PM"
-
 
 @agent.register_func
 def list_emails(oauth_handler: fixieai.OAuthHandler, user_storage) -> str:
