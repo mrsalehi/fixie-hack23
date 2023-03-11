@@ -1,8 +1,6 @@
 import datetime
 from typing import List, Optional
 
-import gmail_assistant_client
-
 USER_TIMEZONE = datetime.timezone(datetime.timedelta(hours=-8))
 USER_DATETIME = datetime.datetime.now(USER_TIMEZONE)
 USER_WORK_HOURS = "09:00 AM to 05:00 PM"
