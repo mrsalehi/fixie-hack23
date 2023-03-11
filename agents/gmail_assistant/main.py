@@ -12,7 +12,7 @@ import json
 import sys
 
 import fixieai
-import gmail_assistant_client
+import gmail_client
 import utils
 
 try:
@@ -30,7 +30,7 @@ except FileNotFoundError:
 
 
 BASE_PROMPT = """I am intelligent gmail assistant agent that can check your emails \
-and generate responses to those emails. \ 
+and generate responses to those emails. \
 events by their title and time, unless the user asks for attendees or location."""
 
 
@@ -61,8 +61,8 @@ events by their title and time, unless the user asks for attendees or location."
 
         fewShots.add("Q: Answer the email " + value +  "[FUNCS]" + "A: " +
             SentEmailsdata)
-        
-    return fewShots     """                     
+
+    return fewShots     """
 
 FEW_SHOTS = """
 Q: Answer the emails I have got today
@@ -97,21 +97,25 @@ agent = fixieai.CodeShotAgent(BASE_PROMPT, FEW_SHOTS, oauth_params=oauth_params)
 
 def answeremail(query: fixieai.Message):
     print("this got called")
-    return "here is your answer"
-    
-def dummyemails(query: fixieai.Message):
-    return {"subject": "Urgent Cash Flow Situationaaaaa",
-    "time": "13:10 11/03/2023",
-    "sender": "urgentinvestor@gmail.com",
-    "body":"""Dear Matt,
 
-    I regret to inform you that we are experiencing a significant cash flow problem, and we may not be able to meet our payroll obligations this week. We urgently need your assistance in finding a solution to this issue.
-
-    Regards,
-    Investor"""
-    }
 
 @agent.register_func
 def workhours():
     """Returns valid working hours. Currently simple."""
     return "09:00 AM to 05:00 PM"
+
+
+@agent.register_func
+def threads(oauth_handler: fixieai.OAuthHandler) -> str:
+    """Returns all events in user's mailbox.
+    """
+    user_token = oauth_handler.user_token()
+    if user_token is None:
+        return oauth_handler.get_authorization_url()
+
+    client = gmail_client.GmailClient(user_token)
+    threads = client.threads()
+    if threads:
+        return "\n".join(f"{thread}" for thread in threads)
+    else:
+        return "You don't have any emails."
