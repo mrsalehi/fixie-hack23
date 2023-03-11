@@ -18,7 +18,7 @@ import utils
 try:
     oauth_params = fixieai.OAuthParams.from_client_secrets_file(
         "gcp-oauth-secrets.json",
-        ["https://www.googleapis.com/auth/calendar.events"],
+        ["https://www.googleapis.com/auth/gmail.readonly"],
     )
 except FileNotFoundError:
     print(
@@ -108,10 +108,11 @@ def workhours():
 def list_emails(oauth_handler: fixieai.OAuthHandler, user_storage) -> str:
     """Returns all events in user's mailbox.
     """
+    # del user_storage["_oauth_token"]
     user_token = oauth_handler.user_token()
     if user_token is None:
         url =  oauth_handler.get_authorization_url()
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         return url
 
     client = gmail_client.GmailClient(user_token)
