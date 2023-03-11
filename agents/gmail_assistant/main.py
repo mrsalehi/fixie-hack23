@@ -67,30 +67,17 @@ events by their title and time, unless the user asks for attendees or location."
 FEW_SHOTS = """
 Q: Answer the emails I have got today
 Thought: I need to get to the emails from gmail and then write draft responses
-Func[dummyemails] says: [{"subject": Urgent Cash Flow Situation,
-"time": 13:10 11/03/2023,
-"sender": urgentinvestor@gmail.com,
-"body":Dear Matt,
+Func[dummyemails] says: [{"subject": "Urgent Cash Flow Situation",
+"time": "13:10 11/03/2023",
+"sender": "urgentinvestor@gmail.com",
+"body":"Dear Matt,I regret to inform you that we are experiencing a significant cash flow problem, and we may not be able to meet our payroll obligations this week."
 
-I regret to inform you that we are experiencing a significant cash flow problem, and we may not be able to meet our payroll obligations this week. We urgently need your assistance in finding a solution to this issue.
-
-Regards,
-Investor
-}]
-Func[respond_emails] says : [{"subject": Urgent Cash Flow Situation,
-"time": 13:10 11/03/2023,
-"sender": urgentinvestor@gmail.com,
-"body":Dear Investor,
-Thank you for bringing this urgent cash flow situation to my attention. I understand the gravity of the situation and will work with our finance team to find a solution as soon as possible.
-
-Best,
-Matt}]
-A: Here is your draft {"subject": Urgent Cash Flow Situation,
-"body":Dear Investor,
-Thank you for bringing this urgent cash flow situation to my attention. I understand the gravity of the situation and will work with our finance team to find a solution as soon as possible.
-
-Best,
-Matt}
+Func[respond_emails] says : [{"subject": "Urgent Cash Flow Situation",
+"time": "13:10 11/03/2023",
+"sender": "urgentinvestor@gmail.com",
+"body":"Dear Investor"}]
+A: Here is your draft {"subject": "Urgent Cash Flow Situation",
+"body": "your response"}
 """
 
 agent = fixieai.CodeShotAgent(BASE_PROMPT, FEW_SHOTS, oauth_params=oauth_params)
