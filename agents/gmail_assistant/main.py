@@ -65,17 +65,12 @@ events by their title and time, unless the user asks for attendees or location."
     return fewShots     """                     
 
 FEW_SHOTS = """
-Q: Answer this email from today? "hi dan how is your day"
-Thought: I need to write a response to this email.
-Func[answeremail] says: great thanks how is yours"
-A: great thanks how is yours
-
 Q: Answer the emails I have got today
 Thought: I need to get to the emails from gmail and then write draft responses
 Func[dummyemails] says: [{"subject": Urgent Cash Flow Situation,
 "time": 13:10 11/03/2023,
 "sender": urgentinvestor@gmail.com,
-body:Dear Matt,
+"body":Dear Matt,
 
 I regret to inform you that we are experiencing a significant cash flow problem, and we may not be able to meet our payroll obligations this week. We urgently need your assistance in finding a solution to this issue.
 
@@ -102,7 +97,19 @@ agent = fixieai.CodeShotAgent(BASE_PROMPT, FEW_SHOTS, oauth_params=oauth_params)
 
 def answeremail(query: fixieai.Message):
     print("this got called")
+    return "here is your answer"
     
+def dummyemails(query: fixieai.Message):
+    return {"subject": "Urgent Cash Flow Situationaaaaa",
+    "time": "13:10 11/03/2023",
+    "sender": "urgentinvestor@gmail.com",
+    "body":"""Dear Matt,
+
+    I regret to inform you that we are experiencing a significant cash flow problem, and we may not be able to meet our payroll obligations this week. We urgently need your assistance in finding a solution to this issue.
+
+    Regards,
+    Investor"""
+    }
 
 @agent.register_func
 def workhours():
